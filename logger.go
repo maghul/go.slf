@@ -9,7 +9,8 @@ Logger contains two LoggerLevel outputs for Info
 and Debug logging.
 */
 type Logger struct {
-	name string
+	name        string
+	description string
 
 	lvl     Level
 	own_lvl bool
@@ -22,7 +23,8 @@ type Logger struct {
 }
 
 func makeLogger(name string) *Logger {
-	l := &Logger{name: name, out: output_nilAdapter}
+	description := fmt.Sprint("Logger for ", name)
+	l := &Logger{name: name, description: description, out: output_nilAdapter}
 	l.initLogger()
 	return l
 }
@@ -55,6 +57,20 @@ Get logger name, level and output of the Logger
 */
 func (l *Logger) String() string {
 	return fmt.Sprint("Logger:", l.Name(), ", level=", l.Level(), ", output=", fmt.Sprint(l.out))
+}
+
+/*
+Get a brief description of the Logger
+*/
+func (l *Logger) Description() string {
+	return l.description
+}
+
+/*
+Change the description of the logger.
+*/
+func (l *Logger) SetDescription(d string) {
+	l.description = d
 }
 
 /*
