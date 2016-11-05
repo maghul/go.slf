@@ -1,5 +1,10 @@
 package slf
 
+import (
+	"errors"
+	"fmt"
+)
+
 /*
 This is the internal interface used for logging output. It can
 be used directly in SetOutputLogger to provide a custom formatting
@@ -21,7 +26,11 @@ func (l *Logger) SetOutputLogger(target interface{}) error {
 		l.out = nil
 	} else {
 		l.own_output = true
-		l.out = getAdapter(target)
+		ad := getAdapter(target)
+		if ad == nil {
+			return errors.New(fmt.Sprint("Could not find adapter for ", target))
+		}
+		l.out = ad
 	}
 	scanSetOutputLoggers()
 	return nil
