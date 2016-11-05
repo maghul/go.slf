@@ -23,14 +23,17 @@ func (l *Logger) SetOutputLogger(target interface{}) error {
 		l.own_output = true
 		l.out = getAdapter(target)
 	}
+	scanSetOutputLoggers()
+	return nil
+}
+
+func scanSetOutputLoggers() {
 	loggerMapMutex.Lock()
 	defer loggerMapMutex.Unlock()
 
 	for _, cl := range loggerMap {
 		cl.out = cl.calcOutput()
 	}
-
-	return nil
 }
 
 // Calculate the level based on parent levels.

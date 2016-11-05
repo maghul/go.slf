@@ -13,6 +13,8 @@ set to Parent then logging levels will be controlled by the parent.
 */
 func (l *Logger) SetParent(parent *Logger) {
 	l.parent = parent
+	scanSetLevels()
+	scanSetOutputLoggers()
 }
 
 /*
@@ -60,6 +62,10 @@ func (l *Logger) SetLevel(lvl Level) {
 		l.lvl = lvl
 	}
 
+	scanSetLevels()
+}
+
+func scanSetLevels() {
 	loggerMapMutex.Lock()
 	defer loggerMapMutex.Unlock()
 
