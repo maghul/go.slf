@@ -26,6 +26,8 @@ func makeLogger(name string) *Logger {
 	description := fmt.Sprint("Logger for ", name)
 	l := &Logger{name: name, description: description, out: output_nilAdapter}
 	l.initLogger()
+	l.initFlag()
+
 	return l
 }
 
@@ -71,6 +73,7 @@ Change the description of the logger.
 */
 func (l *Logger) SetDescription(d string) {
 	l.description = d
+	l.updateFlagUseage()
 }
 
 /*
